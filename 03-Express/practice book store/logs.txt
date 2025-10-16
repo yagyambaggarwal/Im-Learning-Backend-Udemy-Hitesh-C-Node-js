@@ -1,0 +1,9 @@
+
+ "Route" : /, "Method" : GET, "time" : 1760634077763
+ "Route" : /books, "Method" : GET, "time" : 1760634103749
+ "Route" : /books, "Method" : GET, "time" : 1760634136829
+ "Route" : /, "Method" : GET, "time" : 1760634144513
+ "Route" : /books/1, "Method" : GET, "time" : 1760634150298
+ "Route" : /books/2, "Method" : GET, "time" : 1760634154114
+ "Route" : /books/3, "Method" : GET, "time" : 1760634155558
+ "Route" : /books, "Method" : POST, "time" : 1760634170080

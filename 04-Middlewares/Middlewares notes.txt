@@ -1,0 +1,51 @@
+Ques How to use middlewares?
+Ans 1) eg of middlewares => app.use(express.json), app.use(express.txt)
+    2) These middlewares only get into between in the execution only when the routes after they are written are called.
+    3) If there are more then 1 middlewares, they always execute in sequece like one after the other in which they are made.
+    4) eg of creating a custom middlewares:
+    app.use(function (req, res, next){
+        console.log("I'm a middleware A");
+        next();  # This says "I'm done and please go below (next to) me."
+    })
+    //Another middleware
+    app.use(function (req, res, next){
+        console.log("I'm a middleware B");
+        return res.json({id : 1, name : "Yagyam"});
+    })
+
+
+
+Ques Types of middlewares?
+Ans They are 
+    i Global middlewares -> Will run for each and every route.
+    ii Route Specific middlewares -> Will run only for a specified route.
+
+Global middlewares:
+    eg:
+    app.use(function(req, res, next){
+        console.log("This is the Global middlewares.");
+        next();
+    })
+
+    app.get("/", (req, res)=>{
+        res.end("Homepage");
+    })
+
+    app.post("/tweet", (req, res)=>{
+        res.end("Tweet is created")
+    })
+
+Route Specific middlewares:
+    eg:
+    function middleware1(req, res, next){
+        console.log("Route Specific middleware 1.");
+        next();
+    }
+    function middleware2(req, res, next){
+        console.log("Route Specific middleware 2.");
+        next();
+    }
+
+    app.get("/contact-us", middleware1, middleware2, (req, res)=>{
+        res.status(200).end("Jo bhi route ke executions hai wo...");
+    })

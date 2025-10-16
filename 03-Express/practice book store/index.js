@@ -1,6 +1,6 @@
 const express = require("express");
 const app = express();
-
+const fs = require("fs");
 
 // In memory database
 const books = [
@@ -8,15 +8,25 @@ const books = [
   { id: 2, title: 'Book Two', author: 'Author Two' },
 ];
 
+
+// To log the incoming requests, method, time, route
+// For that making a custom middleware
+app.use(function(req, res, next){
+    var log = `\n "Route" : ${req.url}, "Method" : ${req.method}, "time" : ${Date.now()}`;
+    console.log(log);
+    fs.appendFileSync("logs.txt", log);
+    next();
+})
+
 app.get("/", (req, res)=>{
     res.status(200).send("Hello");
 })
 
-app.get("/book", (req, res)=>{
+app.get("/books", (req, res)=>{
     res.status(200).json(books);
 })
 
-app.get("/book/:id", (req, res)=>{
+app.get("/books/:id", (req, res)=>{
     var id = req.params.id;
     var book = books.find(o => o.id == id)
     if(!book){
@@ -33,7 +43,18 @@ app.post("/books", (req, res)=>{
     console.log(req.body);
     var newBook = req.body;
     books.push(newBook);
-    res.end("Route under construction.");
+    res.status(201).end("New Book created.");
+})
+
+// To delete a book throgh ID
+app.delete("/books/:id", (req, res)=>{
+    var id = req.params.id;
+    if(id < 1 || id > books.length){
+        res.status(404).end("Book not found.")
+    }else{
+        books.splice(id - 1, 1);
+        res.status(201).end("Book is deleted.")
+    }
 })
 
 app.listen(8000, ()=>{
